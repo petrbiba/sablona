@@ -70,6 +70,7 @@ export const translations = {
       guests: "Počet hostů",
       submit: "Odeslat rezervaci",
       success: "Děkujeme! Vaši rezervaci potvrdíme e-mailem.",
+      error: "Chyba při odesílání rezervace. Zkuste to prosím znovu.",
     },
     contact: {
       label: "Navštivte nás",
@@ -156,6 +157,7 @@ export const translations = {
       guests: "Number of guests",
       submit: "Submit reservation",
       success: "Thank you! We will confirm your reservation by e-mail.",
+      error: "Error submitting reservation. Please try again.",
     },
     contact: {
       label: "Visit Us",
