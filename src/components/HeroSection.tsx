@@ -1,16 +1,17 @@
 import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-restaurant.jpg";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="hero" className="relative h-screen overflow-hidden">
-      {/* Background image */}
       <div className="absolute inset-0">
         <img src={heroImage} alt="Interiér restaurace Aurum" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -18,7 +19,7 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.3 }}
           className="text-primary text-xs uppercase tracking-[0.4em] mb-6"
         >
-          Fine Dining · Praha
+          {t.hero.subtitle}
         </motion.p>
 
         <motion.h1
@@ -27,7 +28,7 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.6 }}
           className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-wider text-foreground mb-6"
         >
-          AURUM
+          {t.hero.title}
         </motion.h1>
 
         <motion.div
@@ -43,7 +44,7 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 1.2 }}
           className="font-['Cormorant_Garamond'] text-xl md:text-2xl text-foreground/70 italic max-w-lg"
         >
-          Kde se tradice setkává s uměním na talíři
+          {t.hero.tagline}
         </motion.p>
 
         <motion.a
@@ -53,11 +54,10 @@ const HeroSection = () => {
           href="#reservation"
           className="mt-12 px-10 py-4 border border-primary text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary hover:text-primary-foreground transition-all duration-500"
         >
-          Rezervovat stůl
+          {t.hero.cta}
         </motion.a>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

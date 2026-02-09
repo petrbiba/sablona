@@ -1,17 +1,19 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { MapPin, Phone, Clock, Mail } from "lucide-react";
-
-const contactItems = [
-  { icon: MapPin, label: "Adresa", value: "Staroměstské náměstí 12, Praha 1" },
-  { icon: Phone, label: "Telefon", value: "+420 222 333 444" },
-  { icon: Mail, label: "E-mail", value: "rezervace@aurum-praha.cz" },
-  { icon: Clock, label: "Otevírací doba", value: "Út–So: 18:00 – 23:00" },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const ContactSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useLanguage();
+
+  const contactItems = [
+    { icon: MapPin, label: t.contact.address, value: t.contact.addressValue },
+    { icon: Phone, label: t.contact.phone, value: t.contact.phoneValue },
+    { icon: Mail, label: t.contact.emailLabel, value: t.contact.emailValue },
+    { icon: Clock, label: t.contact.hours, value: t.contact.hoursValue },
+  ];
 
   return (
     <section id="contact" className="py-32 px-6" ref={ref}>
@@ -21,7 +23,7 @@ const ContactSection = () => {
           animate={isInView ? { opacity: 1 } : {}}
           className="text-primary text-xs uppercase tracking-[0.3em] mb-4"
         >
-          Navštivte nás
+          {t.contact.label}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -29,7 +31,7 @@ const ContactSection = () => {
           transition={{ delay: 0.2 }}
           className="text-4xl md:text-5xl font-semibold mb-16"
         >
-          Kontakt
+          {t.contact.title}
         </motion.h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">

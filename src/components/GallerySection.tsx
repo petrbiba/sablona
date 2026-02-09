@@ -4,17 +4,19 @@ import dish1 from "@/assets/dish-1.jpg";
 import dish2 from "@/assets/dish-2.jpg";
 import dish3 from "@/assets/dish-3.jpg";
 import heroImg from "@/assets/hero-restaurant.jpg";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const images = [
-  { src: dish1, alt: "Umělecký předkrm", span: "md:col-span-1 md:row-span-2" },
-  { src: heroImg, alt: "Interiér restaurace", span: "md:col-span-2" },
-  { src: dish2, alt: "Čokoládový dezert", span: "md:col-span-1" },
-  { src: dish3, alt: "Hřebenatky", span: "md:col-span-1" },
+  { src: dish1, alt: "dish1", span: "md:col-span-1 md:row-span-2" },
+  { src: heroImg, alt: "interior", span: "md:col-span-2" },
+  { src: dish2, alt: "dish2", span: "md:col-span-1" },
+  { src: dish3, alt: "dish3", span: "md:col-span-1" },
 ];
 
 const GallerySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useLanguage();
 
   return (
     <section id="gallery" className="py-32 px-6" ref={ref}>
@@ -25,7 +27,7 @@ const GallerySection = () => {
             animate={isInView ? { opacity: 1 } : {}}
             className="text-primary text-xs uppercase tracking-[0.3em] mb-4"
           >
-            Vizuální zážitek
+            {t.gallery.label}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -33,7 +35,7 @@ const GallerySection = () => {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-5xl font-semibold"
           >
-            Galerie
+            {t.gallery.title}
           </motion.h2>
         </div>
 

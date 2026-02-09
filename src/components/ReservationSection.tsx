@@ -3,17 +3,19 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const ReservationSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", date: "", time: "", guests: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Děkujeme! Vaši rezervaci potvrdíme e-mailem.");
+    toast.success(t.reservation.success);
     setFormData({ name: "", email: "", phone: "", date: "", time: "", guests: "" });
   };
 
@@ -25,7 +27,7 @@ const ReservationSection = () => {
           animate={isInView ? { opacity: 1 } : {}}
           className="text-primary text-xs uppercase tracking-[0.3em] mb-4"
         >
-          Váš zážitek čeká
+          {t.reservation.label}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -33,7 +35,7 @@ const ReservationSection = () => {
           transition={{ delay: 0.2 }}
           className="text-4xl md:text-5xl font-semibold mb-12"
         >
-          Rezervace
+          {t.reservation.title}
         </motion.h2>
 
         <motion.form
@@ -45,7 +47,7 @@ const ReservationSection = () => {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              placeholder="Jméno a příjmení"
+              placeholder={t.reservation.name}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
@@ -53,7 +55,7 @@ const ReservationSection = () => {
             />
             <Input
               type="email"
-              placeholder="E-mail"
+              placeholder={t.reservation.email}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
@@ -61,7 +63,7 @@ const ReservationSection = () => {
             />
             <Input
               type="tel"
-              placeholder="Telefon"
+              placeholder={t.reservation.phone}
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               required
@@ -71,7 +73,7 @@ const ReservationSection = () => {
               type="number"
               min={1}
               max={12}
-              placeholder="Počet hostů"
+              placeholder={t.reservation.guests}
               value={formData.guests}
               onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
               required
@@ -96,7 +98,7 @@ const ReservationSection = () => {
             type="submit"
             className="w-full h-12 bg-transparent border border-primary text-primary hover:bg-primary hover:text-primary-foreground text-xs uppercase tracking-[0.3em] transition-all duration-500 rounded-none"
           >
-            Odeslat rezervaci
+            {t.reservation.submit}
           </Button>
         </motion.form>
       </div>
