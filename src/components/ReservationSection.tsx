@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const ReservationSection = () => {
   const ref = useRef(null);
@@ -12,11 +13,29 @@ const ReservationSection = () => {
   const [formData, setFormData] = useState({
     name: "", email: "", phone: "", date: "", time: "", guests: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success(t.reservation.success);
-    setFormData({ name: "", email: "", phone: "", date: "", time: "", guests: "" });
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase.from("reservations").insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        date: formData.date,
+        time: formData.time,
+        guests: parseInt(formData.guests, 10),
+      });
+      if (error) throw error;
+      toast.success(t.reservation.success);
+      setFormData({ name: "", email: "", phone: "", date: "", time: "", guests: "" });
+    } catch (err) {
+      console.error("Reservation error:", err);
+      toast.error(t.reservation.error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -96,9 +115,10 @@ const ReservationSection = () => {
           </div>
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="w-full h-12 bg-transparent border border-primary text-primary hover:bg-primary hover:text-primary-foreground text-xs uppercase tracking-[0.3em] transition-all duration-500 rounded-none"
           >
-            {t.reservation.submit}
+            {isSubmitting ? "..." : t.reservation.submit}
           </Button>
         </motion.form>
       </div>
