@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-restaurant.jpg";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -47,15 +48,18 @@ const HeroSection = () => {
           {t.hero.tagline}
         </motion.p>
 
-        <motion.a
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.6 }}
-          href="#reservation"
-          className="mt-12 px-10 py-4 border border-primary text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary hover:text-primary-foreground transition-all duration-500"
         >
-          {t.hero.cta}
-        </motion.a>
+          <Link
+            to="/reservation"
+            className="mt-12 inline-block px-10 py-4 border border-primary text-primary text-xs uppercase tracking-[0.3em] hover:bg-primary hover:text-primary-foreground transition-all duration-500"
+          >
+            {t.hero.cta}
+          </Link>
+        </motion.div>
       </div>
 
       <motion.div
