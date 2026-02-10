@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { language, t, toggleLanguage } = useLanguage();
+  const navigate = useNavigate();
 
   const navItems = [
-    { label: t.nav.home, href: "#hero" },
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.menu, href: "#menu" },
-    { label: t.nav.gallery, href: "#gallery" },
-    { label: t.nav.contact, href: "#contact" },
+    { label: t.nav.home, href: "/#hero" },
+    { label: t.nav.about, href: "/#about" },
+    { label: t.nav.menu, href: "/#menu" },
+    { label: t.nav.gallery, href: "/#gallery" },
+    { label: t.nav.contact, href: "/#contact" },
   ];
 
   useEffect(() => {
@@ -21,6 +23,20 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    if (href.startsWith("/#")) {
+      const id = href.slice(2);
+      if (window.location.pathname === "/") {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }), 100);
+      }
+    }
+    setMobileOpen(false);
+  };
 
   return (
     <motion.nav
@@ -32,9 +48,9 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#hero" className="font-['Playfair_Display'] text-2xl font-semibold tracking-wider text-primary">
+        <Link to="/" className="font-['Playfair_Display'] text-2xl font-semibold tracking-wider text-primary">
           AURUM
-        </a>
+        </Link>
 
         {/* Desktop */}
         <ul className="hidden md:flex gap-8 items-center">
@@ -42,6 +58,7 @@ const Navbar = () => {
             <li key={item.href}>
               <a
                 href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="text-sm uppercase tracking-[0.2em] text-foreground/70 hover:text-primary transition-colors duration-300"
               >
                 {item.label}
@@ -57,12 +74,12 @@ const Navbar = () => {
             </button>
           </li>
           <li>
-            <a
-              href="#reservation"
+            <Link
+              to="/reservation"
               className="ml-4 px-6 py-2.5 border border-primary text-primary text-xs uppercase tracking-[0.2em] hover:bg-primary hover:text-primary-foreground transition-all duration-300"
             >
               {t.nav.reservation}
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -86,7 +103,7 @@ const Navbar = () => {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={(e) => handleNavClick(e, item.href)}
                     className="text-sm uppercase tracking-[0.2em] text-foreground/70 hover:text-primary transition-colors"
                   >
                     {item.label}
@@ -102,13 +119,13 @@ const Navbar = () => {
                 </button>
               </li>
               <li>
-                <a
-                  href="#reservation"
+                <Link
+                  to="/reservation"
                   onClick={() => setMobileOpen(false)}
                   className="px-6 py-2.5 border border-primary text-primary text-xs uppercase tracking-[0.2em]"
                 >
                   {t.nav.reservation}
-                </a>
+                </Link>
               </li>
             </ul>
           </motion.div>

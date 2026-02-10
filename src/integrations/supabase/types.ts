@@ -14,6 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
+      feedback: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          rating: number
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          rating: number
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          rating?: number
+        }
+        Relationships: []
+      }
+      menu_categories: {
+        Row: {
+          id: string
+          sort_order: number
+          title_cs: string
+          title_en: string
+        }
+        Insert: {
+          id?: string
+          sort_order?: number
+          title_cs: string
+          title_en: string
+        }
+        Update: {
+          id?: string
+          sort_order?: number
+          title_cs?: string
+          title_en?: string
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          category_id: string
+          desc_cs: string
+          desc_en: string
+          id: string
+          name_cs: string
+          name_en: string
+          price: string
+          sort_order: number
+        }
+        Insert: {
+          category_id: string
+          desc_cs: string
+          desc_en: string
+          id?: string
+          name_cs: string
+          name_en: string
+          price: string
+          sort_order?: number
+        }
+        Update: {
+          category_id?: string
+          desc_cs?: string
+          desc_en?: string
+          id?: string
+          name_cs?: string
+          name_en?: string
+          price?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "menu_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reservations: {
         Row: {
           created_at: string
@@ -23,6 +112,7 @@ export type Database = {
           id: string
           name: string
           phone: string
+          status: string
           time: string
         }
         Insert: {
@@ -33,6 +123,7 @@ export type Database = {
           id?: string
           name: string
           phone: string
+          status?: string
           time: string
         }
         Update: {
@@ -43,7 +134,26 @@ export type Database = {
           id?: string
           name?: string
           phone?: string
+          status?: string
           time?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -52,10 +162,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -182,6 +298,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

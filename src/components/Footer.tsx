@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const Footer = () => {
@@ -7,6 +8,12 @@ const Footer = () => {
     <footer className="py-12 px-6 border-t border-border/30">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="font-['Playfair_Display'] text-xl text-primary tracking-wider">AURUM</p>
+        <Link
+          to="/feedback"
+          className="text-muted-foreground text-xs tracking-wider hover:text-primary transition-colors uppercase"
+        >
+          {t.footer.feedback}
+        </Link>
         <p className="text-muted-foreground text-xs tracking-wider">{t.footer.rights}</p>
       </div>
     </footer>
