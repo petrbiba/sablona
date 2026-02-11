@@ -112,6 +112,11 @@ export const translations = {
       rating: "Hodnocení",
       message: "Zpráva",
       loginError: "Chyba přihlášení. Zkontrolujte údaje.",
+      register: "Registrace",
+      switchToRegister: "Nemáte účet? Zaregistrujte se",
+      switchToLogin: "Máte účet? Přihlaste se",
+      registerSuccess: "Registrace úspěšná! Zkontrolujte e-mail pro ověření.",
+      registerError: "Chyba při registraci. Zkuste to znovu.",
     },
   },
   en: {
@@ -225,6 +230,11 @@ export const translations = {
       rating: "Rating",
       message: "Message",
       loginError: "Login error. Check your credentials.",
+      register: "Register",
+      switchToRegister: "Don't have an account? Register",
+      switchToLogin: "Already have an account? Sign in",
+      registerSuccess: "Registration successful! Check your email for verification.",
+      registerError: "Registration error. Please try again.",
     },
   },
 } as const;

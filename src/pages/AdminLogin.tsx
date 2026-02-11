@@ -10,19 +10,32 @@ const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const [isRegister, setIsRegister] = useState(false);
+  const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await signIn(email, password);
-    if (error) {
-      toast.error(t.admin.loginError);
+
+    if (isRegister) {
+      const { error } = await signUp(email, password);
+      if (error) {
+        toast.error(t.admin.registerError);
+      } else {
+        toast.success(t.admin.registerSuccess);
+        setIsRegister(false);
+      }
     } else {
-      navigate("/admin");
+      const { error } = await signIn(email, password);
+      if (error) {
+        toast.error(t.admin.loginError);
+      } else {
+        navigate("/admin");
+      }
     }
+
     setLoading(false);
   };
 
@@ -31,7 +44,9 @@ const AdminLogin = () => {
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
           <h1 className="font-['Playfair_Display'] text-3xl font-semibold text-primary tracking-wider">AURUM</h1>
-          <p className="text-muted-foreground text-sm mt-2 uppercase tracking-[0.2em]">{t.admin.login}</p>
+          <p className="text-muted-foreground text-sm mt-2 uppercase tracking-[0.2em]">
+            {isRegister ? t.admin.register : t.admin.login}
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
@@ -55,9 +70,16 @@ const AdminLogin = () => {
             disabled={loading}
             className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 text-xs uppercase tracking-[0.3em]"
           >
-            {loading ? "..." : t.admin.signIn}
+            {loading ? "..." : isRegister ? t.admin.register : t.admin.signIn}
           </Button>
         </form>
+        <button
+          type="button"
+          onClick={() => setIsRegister(!isRegister)}
+          className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {isRegister ? t.admin.switchToLogin : t.admin.switchToRegister}
+        </button>
       </div>
     </div>
   );
